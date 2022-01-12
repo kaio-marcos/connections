@@ -1,11 +1,8 @@
-package com.pingr.conections.Connections;
+package com.pingr.conections.Connections.AccountMirror;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +19,11 @@ public class Account {
     )
     private String username;
 
-    @OneToMany
+    // sendo definido como oneToMany o spring cria uma chave estrangeira para o atributo friends, que é
+    // o próprio accountID, bem como uma outra chave estrangeira accountID.
+    // o problema é que por ser um para muitos eu não posso duplicar friendsID
+    // fazendo com que seja ManyToMany
+    @ManyToMany
     private Set<Account> friends = new HashSet<>();
 
     public Account(Long id, String username, Set<Account> friends) {
@@ -69,7 +70,7 @@ public class Account {
         return "Account{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", friends=" + friends +
+                ", friendsCount=" + friends.size() + // estava gerando loop
                 '}';
     }
 }

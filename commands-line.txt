@@ -1,0 +1,23 @@
+#criar uma rede
+docker network create --driver bridge postgres-network
+
+#rodar um postgres na porta 5432
+docker container run --rm --name spring-pg --network=postgres-network -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=root -p 5432:5432 -d postgres
+
+#rodar um postgres secundário na porta 5433
+docker container run --rm --name spring-pg-secondary --network=postgres-network -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=root -p 5433:5432 -d postgres
+
+#rodar pgAdmin http://localhost:15432
+docker run --name spring-pdAdmin --network=postgres-network -p 15432:80 -e "PGADMIN_DEFAULT_EMAIL=kaios@itmchannelmarketing.com" -e "PGADMIN_DEFAULT_PASSWORD=secret" -d dpage/pgadmin4
+
+#lista todos container
+docker ps -a
+
+#para um container
+docker stop name/id
+
+#remove um container
+docker rm name/id
+
+#inicia um container existente
+docker start name/id

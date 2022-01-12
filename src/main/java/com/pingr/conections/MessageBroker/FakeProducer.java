@@ -1,5 +1,6 @@
-package com.pingr.conections.Connections;
+package com.pingr.conections.MessageBroker;
 
+import com.pingr.conections.Connections.AccountMirror.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
