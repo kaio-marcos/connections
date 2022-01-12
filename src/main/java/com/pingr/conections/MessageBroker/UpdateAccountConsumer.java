@@ -12,17 +12,17 @@ import java.io.IOException;
 
 //perguntar depois
 @Component  // prepara para injeção de dependência do @Autowired. antes era service, agora 'component', que, adota parte do comportamento
-public class NewAccountConsumer {
+public class UpdateAccountConsumer {
     private final AccountService service;
 
     @Autowired
-    public NewAccountConsumer(AccountService service) {
+    public UpdateAccountConsumer(AccountService service) {
         this.service = service;
     }
 
     @KafkaListener(
-            topics = "${topic.accounts}",
-            groupId = "connection_new_accounts"
+            topics = "${topic.update-accounts}",
+            groupId = "connection_update_accounts"
     )
     public void consume(String account) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -30,8 +30,8 @@ public class NewAccountConsumer {
 
         Account acc = mapper.readValue(account, Account.class);
 
-        System.out.println("recebi account json:");
+        System.out.println("recebi update account json:");
         System.out.println(acc);
-        this.service.storeAccount(acc);
+        this.service.updateAccount(acc);
     }
 }

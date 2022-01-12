@@ -21,3 +21,5 @@ docker rm name/id
 
 #inicia um container existente
 docker start name/id
+
+# erro que estava no kafka https://stackoverflow.com/questions/51688924/spring-kafka-the-class-is-not-in-the-trusted-packages

@@ -26,6 +26,11 @@ public class Account {
     @ManyToMany
     private Set<Account> friends = new HashSet<>();
 
+    public Account(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
     public Account(Long id, String username, Set<Account> friends) {
         this.id = id;
         this.username = username;

@@ -4,6 +4,12 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       bootstrap-servers: localhost:9092
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
     consumer:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -23,7 +29,11 @@ spring:
 
 topic:
   accounts: new_accounts_topic
+  update-accounts: update_accounts_topic
+  delete-accounts: delete_accounts_topic
+  new-following: new_following
 
 server:
+  port: 8090
   error:
     include-message: always

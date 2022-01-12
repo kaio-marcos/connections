@@ -2,7 +2,7 @@ package com.pingr.conections.Connections;
 
 import com.pingr.conections.Connections.AccountMirror.Account;
 import com.pingr.conections.Connections.AccountMirror.AccountRepository;
-import jdk.jfr.events.ThrowablesEvent;
+import com.pingr.conections.MessageBroker.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +14,14 @@ import java.util.stream.Collectors;
 @Service
 public class ConnectionsService {
     private final AccountRepository repo;
+    private final ProducerService producerService;
 
     @Autowired
-    public ConnectionsService(AccountRepository repo) {
+    public ConnectionsService(AccountRepository repo, ProducerService producerService) {
         this.repo = repo;
+        this.producerService = producerService;
     }
 
-    public void storeAccount(Account account) {
-        this.repo.save(account);
-        System.out.println("salvei a conta:");
-        System.out.println(account);
-    }
 
     public boolean stablishFriendshipBetween(ReceiveTwoIds ids) {
         if(ids.getIdA() == null || ids.getIdB() == null) throw new IllegalStateException("Os ids não podem ser nulos");
@@ -48,7 +45,7 @@ public class ConnectionsService {
         b.setFriends(bFriends);
 
         this.repo.saveAll(Arrays.asList(a,b));
-
+        this.producerService.sendMessage(Arrays.asList(a,b));
         return true;
     }
 
